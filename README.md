@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/ccnmtl/django-pagetimer.svg?branch=master)](https://travis-ci.org/ccnmtl/django-pagetimer)
+[![Coverage Status](https://coveralls.io/repos/github/ccnmtl/django-pagetimer/badge.svg?branch=master)](https://coveralls.io/github/c
+cnmtl/django-pagetimer?branch=master)
+
 # django-pagetimer
 
 Simple but effective endpoint for tracking users' time spent on pages.
