@@ -38,4 +38,4 @@ class PageVisit(models.Model):
     objects = PageVisitManager()
 
     class Meta:
-        ordering= ["-visited"]
+        ordering = ["-visited"]
