@@ -30,7 +30,7 @@ def main():
         TEST_RUNNER='django.test.runner.DiscoverRunner',
 
         COVERAGE_EXCLUDES_FOLDERS=['migrations'],
-        ROOT_URLCONF='pagetimer.tests.urls',
+        ROOT_URLCONF='pagetimer.urls',
         # Django replaces this, but it still wants it. *shrugs*
         DATABASES={
             'default': {
