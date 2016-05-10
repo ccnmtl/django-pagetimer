@@ -2,6 +2,7 @@ import base64
 import hashlib
 
 from django.db import models
+from django.utils.encoding import smart_str
 
 
 def process_session_key(session_key):
@@ -11,7 +12,7 @@ def process_session_key(session_key):
     hash it down to something smaller and easier to eyeball."""
     if session_key is None:
         return "None"
-    return base64.b64encode(hashlib.sha1(session_key).digest())
+    return base64.b64encode(hashlib.sha1(smart_str(session_key)).digest())
 
 
 class PageVisitManager(models.Manager):
