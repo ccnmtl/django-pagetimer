@@ -50,14 +50,19 @@ preferably near the end of the `<head>`, insert a `{% pagetimer %}`.
 Now, anytime a user is on any page of your site, their browser will
 ping the pagetimer endpoint once every 60s and it will log it.
 
-## coming soon
+## features
 
+* simple admin dashboard to see recent visits
 * admin view for downloading CSV dumps
-* admin view for downloading *anonymized* CSV dumps (with username,
-ipaddress anonymized)
-* basic admin dashboard of recent visits
 * admin function for clearing out older entries (to free up disk space
 in the DB)
+
+## coming soon
+
+* js will only heartbeat to the endpoint if the tab is visible (via
+  [Page Visibility API](https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API))
+* admin view for downloading *anonymized* CSV dumps (with username,
+ipaddress anonymized)
 * pluggable backend architecture. The existing DB model will be one
   (and probably the default) model. A simple textfile appending
   backend will be added and there will be a nice interface for
