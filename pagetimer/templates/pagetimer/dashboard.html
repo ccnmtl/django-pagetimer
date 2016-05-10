@@ -15,10 +15,19 @@
     <h3>Recent Visits: {% if page_obj %}{{page_obj.paginator.count}}{% else %}{{ object_list.count }}{% endif %}</h3>
 
      {% if page_obj and is_paginated %}
-            <p>
-                {% if page_obj.has_previous %}<a href="?page={{page_obj.previous_page_number}}">&lt; previous</a> - {% endif %}
-                [page {{page_obj.number}}]
-                {% if page_obj.has_next %} - <a href="?page={{page_obj.next_page_number}}">next &gt;</a>{% endif %}
+         <nav>
+             <ul class="pagination">
+                 {% if page_obj.has_previous %}
+                     <li>
+                         <a href="?page={{page_obj.previous_page_number}}">&lt; previous</a>
+                     </li>
+                 {% endif %}
+                 <li class="active">page {{page_obj.number}}</li>
+                 {% if page_obj.has_next %}
+                     <li>
+                         <a href="?page={{page_obj.next_page_number}}">next &gt;</a>
+                     </li>
+                 {% endif %}
             </p>
      {% endif %}
      
@@ -45,11 +54,20 @@
     </table>
 
     {% if page_obj and is_paginated %}
-        <p>
-            {% if page_obj.has_previous %}<a href="?page={{page_obj.previous_page_number}}">&lt; previous</a> - {% endif %}
-            [page {{page_obj.number}}]
-            {% if page_obj.has_next %} - <a href="?page={{page_obj.next_page_number}}">next &gt;</a>{% endif %}
-        </p>
+        <nav>
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page={{page_obj.previous_page_number}}">&lt; previous</a>
+                    </li>
+                {% endif %}
+                <li class="active">page {{page_obj.number}}</li>
+                {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{page_obj.next_page_number}}">next &gt;</a>
+                    </li>
+                {% endif %}
+    </p>
     {% endif %}
 
 {% endblock %}
