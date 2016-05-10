@@ -4,7 +4,7 @@ from django.test import TestCase
 from pagetimer.models import PageVisit
 
 
-class SimpleTest(TestCase):
+class EndpointTest(TestCase):
     def test_not_logged_in(self):
         r = self.client.post(
             reverse('pagetimer-endpoint'),
@@ -28,3 +28,9 @@ class SimpleTest(TestCase):
         v = PageVisit.objects.all()[0]
         self.assertEqual(v.username, 'testuser')
         self.assertEqual(v.path, '/something/random')
+
+
+class DashboardTest(TestCase):
+    def test_loads(self):
+        r = self.client.get(reverse('pagetimer-dashboard'))
+        self.assertEqual(r.status_code, 200)

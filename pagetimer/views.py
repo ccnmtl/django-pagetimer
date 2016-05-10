@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 
 from .models import PageVisit
 
@@ -22,3 +22,8 @@ class PageTimerEndpointView(View):
             ipaddress,
         )
         return JsonResponse({"status": "ok"})
+
+
+# TODO: superuser-only
+class DashboardView(TemplateView):
+    template_name = "pagetimer/dashboard.html"
