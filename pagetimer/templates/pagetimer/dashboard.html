@@ -9,7 +9,7 @@
     <ul>
         <li><a href="{% url 'pagetimer-csv' %}">Download CSV</a></li>
         <li>Download Anonymized CSV [to be implemented]</li>
-        <li>Purge Old Data [to be implemented]</li>
+        <li><a href="{% url 'pagetimer-purge' %}">Purge Old Data</a></li>
     </ul>
     
     <h3>Recent Visits: {% if page_obj %}{{page_obj.paginator.count}}{% else %}{{ object_list.count }}{% endif %}</h3>

@@ -1,11 +1,14 @@
 import csv
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
+from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
 from .models import PageVisit
+from .forms import PurgeForm
 
 
 class PageTimerEndpointView(View):
@@ -62,3 +65,18 @@ class CSVView(View):
             ])
 
         return response
+
+
+# TODO: superuser-only
+class PurgeView(FormView):
+    template_name = 'pagetimer/purge.html'
+    form_class = PurgeForm
+
+    def get_success_url(self):
+        return reverse('pagetimer-dashboard')
+
+    def form_valid(self, form):
+        timestamp = form.cleaned_data['timestamp']
+        q = PageVisit.objects.filter(visited__lt=timestamp)
+        q.delete()
+        return super(PurgeView, self).form_valid(form)

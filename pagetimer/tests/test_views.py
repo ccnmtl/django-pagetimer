@@ -32,11 +32,41 @@ class EndpointTest(TestCase):
 
 class DashboardTest(TestCase):
     def test_loads(self):
+        u = User.objects.create(username='testuser', is_superuser=True)
+        u.set_password('password')
+        u.save()
+        self.client.login(username='testuser', password='password')
         r = self.client.get(reverse('pagetimer-dashboard'))
         self.assertEqual(r.status_code, 200)
 
 
 class CSVTest(TestCase):
     def test_loads(self):
+        u = User.objects.create(username='testuser', is_superuser=True)
+        u.set_password('password')
+        u.save()
+        self.client.login(username='testuser', password='password')
         r = self.client.get(reverse('pagetimer-csv'))
         self.assertEqual(r.status_code, 200)
+
+
+class PurgeTest(TestCase):
+    def test_form(self):
+        u = User.objects.create(username='testuser', is_superuser=True)
+        u.set_password('password')
+        u.save()
+        self.client.login(username='testuser', password='password')
+        r = self.client.get(reverse('pagetimer-purge'))
+        self.assertEqual(r.status_code, 200)
+        self.assertIn('form', r.context)
+
+    def test_post(self):
+        u = User.objects.create(username='testuser', is_superuser=True)
+        u.set_password('password')
+        u.save()
+        self.client.login(username='testuser', password='password')
+        r = self.client.post(
+            reverse('pagetimer-purge'),
+            dict(timestamp='2000-01-01 01:01:01')
+        )
+        self.assertEqual(r.status_code, 302)
