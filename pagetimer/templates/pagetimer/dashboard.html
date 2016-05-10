@@ -10,5 +10,44 @@
         <li>Purge Old Data [to be implemented]</li>
     </ul>
 
-    <p>View of data... [to be implemented]</p>
+    <h3>Recent Visits: {% if page_obj %}{{page_obj.paginator.count}}{% else %}{{ object_list.count }}{% endif %}</h3>
+
+     {% if page_obj and is_paginated %}
+            <p>
+                {% if page_obj.has_previous %}<a href="?page={{page_obj.previous_page_number}}">&lt; previous</a> - {% endif %}
+                [page {{page_obj.number}}]
+                {% if page_obj.has_next %} - <a href="?page={{page_obj.next_page_number}}">next &gt;</a>{% endif %}
+            </p>
+     {% endif %}
+     
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>timestamp</th>
+                <th>username</th>
+                <th>session_key</th>
+                <th>ip address</th>
+                <th>path</th>
+        </thead>
+        <tbody>
+        {% for visit in object_list %}
+            <tr>
+                <td>{{visit.visited}}</td>
+                <td>{{visit.username}}</td>
+                <td>{{visit.session_key}}</td>
+                <td>{{visit.ipaddress}}</td>
+                <td>{{visit.path}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if page_obj and is_paginated %}
+        <p>
+            {% if page_obj.has_previous %}<a href="?page={{page_obj.previous_page_number}}">&lt; previous</a> - {% endif %}
+            [page {{page_obj.number}}]
+            {% if page_obj.has_next %} - <a href="?page={{page_obj.next_page_number}}">next &gt;</a>{% endif %}
+        </p>
+    {% endif %}
+
 {% endblock %}

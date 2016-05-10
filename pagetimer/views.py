@@ -1,5 +1,6 @@
 from django.http import JsonResponse
-from django.views.generic.base import View, TemplateView
+from django.views.generic.base import View
+from django.views.generic.list import ListView
 
 from .models import PageVisit
 
@@ -25,5 +26,6 @@ class PageTimerEndpointView(View):
 
 
 # TODO: superuser-only
-class DashboardView(TemplateView):
+class DashboardView(ListView):
     template_name = "pagetimer/dashboard.html"
+    model = PageVisit
