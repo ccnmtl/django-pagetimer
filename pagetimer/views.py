@@ -37,7 +37,6 @@ def get_interval():
     return 60
 
 
-# TODO: superuser-only
 class DashboardView(ListView):
     template_name = "pagetimer/dashboard.html"
     model = PageVisit
@@ -48,7 +47,6 @@ class DashboardView(ListView):
         return context
 
 
-# TODO: superuser-only
 class CSVView(View):
     def get(self, request):
         response = HttpResponse(content_type='text/csv')
@@ -67,7 +65,6 @@ class CSVView(View):
         return response
 
 
-# TODO: superuser-only
 class PurgeView(FormView):
     template_name = 'pagetimer/purge.html'
     form_class = PurgeForm
