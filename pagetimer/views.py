@@ -1,4 +1,6 @@
-from django.http import JsonResponse
+import csv
+
+from django.http import HttpResponse, JsonResponse
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 
@@ -29,3 +31,22 @@ class PageTimerEndpointView(View):
 class DashboardView(ListView):
     template_name = "pagetimer/dashboard.html"
     model = PageVisit
+
+
+# TODO: superuser-only
+class CSVView(View):
+    def get(self, request):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename=pagevisits.csv'
+
+        writer = csv.writer(response)
+        writer.writerow(['timestamp', 'username', 'session_key', 'ipaddress',
+                         'path'])
+        # for CSV, I think we actually want chronological order instead of
+        # reverse-chron
+        for pv in PageVisit.objects.all().order_by('visited'):
+            writer.writerow([
+                pv.visited, pv.username, pv.session_key, pv.ipaddress, pv.path,
+            ])
+
+        return response

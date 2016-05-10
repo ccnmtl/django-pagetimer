@@ -34,3 +34,9 @@ class DashboardTest(TestCase):
     def test_loads(self):
         r = self.client.get(reverse('pagetimer-dashboard'))
         self.assertEqual(r.status_code, 200)
+
+
+class CSVTest(TestCase):
+    def test_loads(self):
+        r = self.client.get(reverse('pagetimer-csv'))
+        self.assertEqual(r.status_code, 200)
