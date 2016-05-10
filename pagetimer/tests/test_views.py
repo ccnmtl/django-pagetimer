@@ -45,6 +45,7 @@ class CSVTest(TestCase):
         u = User.objects.create(username='testuser', is_superuser=True)
         u.set_password('password')
         u.save()
+        PageVisit.objects.log_visit('user', 'sessionkey', '127.0.0.1', '/')
         self.client.login(username='testuser', password='password')
         r = self.client.get(reverse('pagetimer-csv'))
         self.assertEqual(r.status_code, 200)
