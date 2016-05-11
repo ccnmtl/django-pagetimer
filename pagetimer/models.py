@@ -1,8 +1,42 @@
 import base64
 import hashlib
 
+from datetime import datetime
+from django.conf import settings
 from django.db import models
 from django.utils.encoding import smart_bytes
+
+
+class MaxIntervalRetentionEnforcer(object):
+    def __init__(self, max_interval):
+        self.max_interval = max_interval
+
+    def enforce(self):
+        now = datetime.now()
+        cutoff = now - self.max_interval
+        PageVisit.objects.filter(visited__lt=cutoff).delete()
+
+
+class MaxCountRetentionEnforcer(object):
+    def __init__(self, max_count):
+        self.max_count = max_count
+
+    def enforce(self):
+        if PageVisit.objects.all().count() < self.max_count:
+            return
+        cutoff = PageVisit.objects.all()[self.max_count].visited
+        PageVisit.objects.filter(visited__lt=cutoff).delete()
+
+
+def retention_enforcers():
+    enforcers = []
+    if hasattr(settings, 'PAGETIMER_MAX_RETENTION_INTERVAL'):
+        enforcers.append(MaxIntervalRetentionEnforcer(
+            settings.PAGETIMER_MAX_RETENTION_INTERVAL))
+    if hasattr(settings, 'PAGETIMER_MAX_RETENTION_COUNT'):
+        enforcers.append(MaxCountRetentionEnforcer(
+            settings.PAGETIMER_MAX_RETENTION_COUNT))
+    return enforcers
 
 
 def process_session_key(session_key):
@@ -26,7 +60,12 @@ class PageVisitManager(models.Manager):
             ipaddress=ipaddress,
         )
         p.save()
+        self.max_retention()
         return p
+
+    def max_retention(self):
+        for enforcer in retention_enforcers():
+            enforcer.enforce()
 
     def earliest(self):
         f = self.all().order_by("visited").first()

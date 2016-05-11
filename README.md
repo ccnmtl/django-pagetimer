@@ -50,6 +50,29 @@ preferably near the end of the `<head>`, insert a `{% pagetimer %}`.
 Now, anytime a user is on any page of your site, their browser will
 ping the pagetimer endpoint once every 60s and it will log it.
 
+You can set `PAGETIMER_INTERVAL` to the number of seconds between
+heartbeats. Default is 60 seconds.
+
+By default, all visits are kept until they are manually purged. This
+is probably a bad idea if you get much traffic and aren't actively
+monitoring DB size. So pagetimer includes two different retention
+policies that you can enable:
+
+`PAGETIMER_MAX_RETENTION_INTERVAL` can be set to a
+`datetime.timedelta`. Any entries further back than that will
+automatically be dropped. Eg:
+
+```
+from datetime import timedelta
+PAGETIMER_MAX_RETENTION_INTERVAL = timedelta(days=7)
+```
+
+Will drop entries after a week.
+
+`PAGETIMER_MAX_RETENTION_COUNT` can be set to a maximum count of
+entries to keep. This is good as a last-ditch limit. You can set both
+of them.
+
 ## features
 
 * simple admin dashboard to see recent visits
