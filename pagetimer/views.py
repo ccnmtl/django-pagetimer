@@ -63,7 +63,7 @@ class FilterView(TemplateView):
                 d = {param: v}
                 q = q.filter(**d)
                 filters.append(dict(param=param, value=v))
-        paginator = Paginator(q, 10)
+        paginator = Paginator(q, self.paginate_by)
         page = self.request.GET.get('page')
         try:
             visits = paginator.page(page)
