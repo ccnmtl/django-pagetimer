@@ -28,6 +28,29 @@ class PageVisitManager(models.Manager):
         p.save()
         return p
 
+    def earliest(self):
+        f = self.all().order_by("visited").first()
+        if f is None:
+            return None
+        return f.visited
+
+    def latest(self):
+        l = self.all().order_by("-visited").first()
+        if l is None:
+            return None
+        return l.visited
+
+    def summarize(self):
+        return dict(
+            count=self.all().count(),
+            earliest=self.earliest(),
+            latest=self.latest(),
+            users=self.values('username').distinct().count(),
+            sessions=self.values('session_key').distinct().count(),
+            ipaddresses=self.values('ipaddress').distinct().count(),
+            paths=self.values('path').distinct().count(),
+        )
+
 
 class PageVisit(models.Model):
     username = models.TextField(default="anonymous")

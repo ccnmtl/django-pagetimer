@@ -4,13 +4,22 @@
 
     <h2>PageTimer Dashboard</h2>
 
-    <p>Interval set to: {{interval}}s.</p>
-
     <ul>
         <li><a href="{% url 'pagetimer-csv' %}">Download CSV</a></li>
         <li>Download Anonymized CSV [to be implemented]</li>
         <li><a href="{% url 'pagetimer-purge' %}">Purge Old Data</a></li>
     </ul>
+
+    <h3>Summary</h3>
+    <table class="table">
+        <tr><th>Interval:</th><td>{{interval}}s</td></tr>
+        <tr><th>Total:</th><td>{{summary.count}}</td></tr>
+        <tr><th>Range:</th><td>{{summary.earliest}} to {{summary.latest}}</td></tr>
+        <tr><th>Distinct Users:</th><td>{{summary.users}}</td></tr>
+        <tr><th>Distinct Sessions:</th><td>{{summary.sessions}}</td></tr>
+        <tr><th>Distinct IP Addresses:</th><td>{{summary.ipaddresses}}</td></tr>
+        <tr><th>Distinct Paths:</th><td>{{summary.paths}}</td></tr>
+    </table>
     
     <h3>Recent Visits: {% if page_obj %}{{page_obj.paginator.count}}{% else %}{{ object_list.count }}{% endif %}</h3>
 

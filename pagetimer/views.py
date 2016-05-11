@@ -44,6 +44,7 @@ class DashboardView(ListView):
     def get_context_data(self, **kwargs):
         context = super(DashboardView, self).get_context_data(**kwargs)
         context['interval'] = get_interval()
+        context['summary'] = PageVisit.objects.summarize()
         return context
 
 
