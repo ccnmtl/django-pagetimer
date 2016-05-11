@@ -40,6 +40,19 @@ class DashboardTest(TestCase):
         self.assertEqual(r.status_code, 200)
 
 
+class FilterTest(TestCase):
+    def test_loads(self):
+        u = User.objects.create(username='testuser', is_superuser=True)
+        u.set_password('password')
+        u.save()
+        self.client.login(username='testuser', password='password')
+        r = self.client.get(reverse('pagetimer-filter'))
+        self.assertEqual(r.status_code, 200)
+        r = self.client.get(reverse('pagetimer-filter') + "?page=30")
+        self.assertEqual(r.status_code, 200)
+        r = self.client.get(reverse('pagetimer-filter') + "?page=foo")
+
+
 class CSVTest(TestCase):
     def test_loads(self):
         u = User.objects.create(username='testuser', is_superuser=True)

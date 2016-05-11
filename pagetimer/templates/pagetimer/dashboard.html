@@ -53,10 +53,10 @@
         {% for visit in object_list %}
             <tr>
                 <td>{{visit.visited}}</td>
-                <td>{{visit.username}}</td>
-                <td>{{visit.session_key}}</td>
-                <td>{{visit.ipaddress}}</td>
-                <td>{{visit.path}}</td>
+                <td><a href="{% url 'pagetimer-filter' %}?username={{visit.username}}">{{visit.username}}</a></td>
+                <td><a href="{% url 'pagetimer-filter' %}?session_key{{visit.session_key}}">{{visit.session_key}}</a></td>
+                <td><a href="{% url 'pagetimer-filter' %}?ipaddress={{visit.ipaddress}}">{{visit.ipaddress}}</a></td>
+                <td><a href="{% url 'pagetimer-filter' %}?path={{visit.path}}">{{visit.path}}</a></td>
             </tr>
         {% endfor %}
         </tbody>

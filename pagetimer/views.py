@@ -1,9 +1,10 @@
 import csv
 
 from django.conf import settings
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, JsonResponse
-from django.views.generic.base import View
+from django.views.generic.base import View, TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 
@@ -45,6 +46,34 @@ class DashboardView(ListView):
         context = super(DashboardView, self).get_context_data(**kwargs)
         context['interval'] = get_interval()
         context['summary'] = PageVisit.objects.summarize()
+        return context
+
+
+class FilterView(TemplateView):
+    template_name = "pagetimer/filter.html"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(FilterView, self).get_context_data(**kwargs)
+        q = PageVisit.objects.all()
+        filters = []
+        for param in ['username', 'session_key', 'ipaddress', 'path']:
+            if param in self.request.GET:
+                v = self.request.GET[param]
+                d = {param: v}
+                q = q.filter(**d)
+                filters.append(dict(param=param, value=v))
+        paginator = Paginator(q, 10)
+        page = self.request.GET.get('page')
+        try:
+            visits = paginator.page(page)
+        except PageNotAnInteger:
+            visits = paginator.page(1)
+        except EmptyPage:
+            visits = paginator.page(paginator.num_pages)
+        context['object_list'] = visits.object_list
+        context['page_obj'] = visits
+        context['filters'] = filters
         return context
 
 

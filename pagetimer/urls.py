@@ -8,6 +8,10 @@ urlpatterns = [
         views.DashboardView.as_view(
             paginate_by=100,
         )), name='pagetimer-dashboard'),
+    url('^filter/$', user_passes_test(lambda x: x.is_superuser)(
+        views.FilterView.as_view(
+            paginate_by=100,
+        )), name='pagetimer-filter'),
     url('^csv/$', user_passes_test(lambda x: x.is_superuser)(
         views.CSVView.as_view()), name='pagetimer-csv'),
     url('^purge/$', user_passes_test(lambda x: x.is_superuser)(
