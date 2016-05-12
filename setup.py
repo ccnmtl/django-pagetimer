@@ -27,7 +27,7 @@ from setuptools import setup
 
 setup(
     name="django-pagetimer",
-    version="0.1.0",
+    version="0.2.0",
     author="Anders Pearson",
     author_email="anders@columbia.edu",
     url="https://github.com/ccnmtl/django-pagetimer",
