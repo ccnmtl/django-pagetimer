@@ -1,25 +1,30 @@
 language: python
 sudo: false
 python:
-  - "2.7"
-  - "3.5"
+- '2.7'
+- '3.5'
 env:
-  - DJANGO="Django>=1.8.0,<1.9.0"
-  - DJANGO="Django>=1.9.0,<1.10.0"
-
-# command to install dependencies
+- DJANGO="Django>=1.8.0,<1.9.0"
+- DJANGO="Django>=1.9.0,<1.10.0"
 install:
-  - pip install -q $DJANGO
-  - pip install .
-  - pip install flake8
-  - pip install coveralls
-
-# command to run tests
+- pip install -q $DJANGO
+- pip install .
+- pip install flake8
+- pip install coveralls
 script:
-  - flake8 pagetimer runtests.py
-  - python runtests.py
-  - coverage run --source=pagetimer runtests.py
+- flake8 pagetimer runtests.py
+- python runtests.py
+- coverage run --source=pagetimer runtests.py
 notifications:
   slack: ccnmtl:GizSNscLWJLldjQrffB8mwgm
 after_success:
-  - coveralls
+- coveralls
+deploy:
+  provider: pypi
+  user: ctlpypi
+  password:
+    secure: DwFqbbi4LJ35wPH99vO/8gQJ8slERTC/+AGuj5oUV6zRuRAyg+8Dnc0Hu4MoILyZtWsIcZdn0uhHt6vSxI7qfdRO7qrP+bF3fI0PyXC8B0nFtrpBKDk5hk95oxmLAyG32fNkHwr4EUBChlQ/CO1TpamuJIHu0zhCfoOuvXFu5/t2FSsIF+k9bMbIufnb13xP0WizB2YujTLqngGIKx1JXwWVzIYIztDr64hotjtulxQ1woBJZdoJ7qZU7CJ07GZcZ/+gZWl/bif/rH9n67BB0AB7+2ZFRsbgA65eJSSH9sQ9PJZgBOAjT/jju/q+LFcrtblwQbM0DqvehnWt9mavjNpdLm2zdjtP8Syugv1p6XS1whoUCLcy0LlbgjXRZcquIRZvAI9YFwFTg1yjpWT3rYh54qwK1VDdPNdGJMNx/Eexr65ZnOpZDK3mUUDLGofAhUqJI8RtC5H3mVu5napz/IzQjWoVuNLa9R5CQtHRAyicLIzbKXFq7ThM0ObIu9K1HFdPMK6rBEbhDZhmbxDLkPCpJTu3T4Jz1L458iH5lfJGETaB1TkjdNd8RHMbWLRRgC2nXn7ezO683YHQFB0RyEho+KtIGv5fseRKNG13xSToj+SciQ0NTC5yWMgd/ueavku0QzIOYiOjaVImtD/AFXEu9N/OlJmv1R+IfGu8j0o=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: ccnmtl/django-pagetimer
